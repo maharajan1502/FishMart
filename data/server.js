@@ -4,17 +4,29 @@ const cors = require('cors');
 const bodyParser = require('body-parser')
 const app = express();
 const PORT = 5000;
-import './db';
+// import './db';
 app.use(cors());
 app.use(bodyParser.json());
 
 const products = [
-    { id: 1, name: 'Salmon', price: '$10.00' },
-    { id: 2, name: 'Tuna', price: '$12.00' },
-    { id: 3, name: 'Trout', price: '$8.00' },
-    { id: 1, name: 'Salmon', price: '$10.00' },
-    { id: 2, name: 'Tuna', price: '$12.00' },
-    { id: 3, name: 'Trout', price: '$8.00' },
+    { id: 1, name: 'Salmon', price: '$10.00', url:'images/salmon.jpg' },
+    { id: 2, name: 'Tuna', price: '$12.00' , url:'images/tuna.jpg' },
+    { id: 3, name: 'Sardine', price: '$8.00',url:'images/sardine.jpg'},
+    { id: 1, name: 'Herring', price: '$10.00' , url:'images/herring.jpg' },
+    { id: 2, name: 'Crab', price: '$12.00', url:'images/crab.jpeg'},
+    { id: 3, name: 'Prawn', price: '$8.00', url:'images/prawn.jpg'},
+    { id: 1, name: 'Salmon', price: '$10.00', url:'images/salmon.jpg' },
+    { id: 2, name: 'Tuna', price: '$12.00' , url:'images/tuna.jpg' },
+    { id: 3, name: 'Sardine', price: '$8.00',url:'images/sardine.jpg'},
+    { id: 1, name: 'Herring', price: '$10.00' , url:'images/herring.jpg' },
+    { id: 2, name: 'Crab', price: '$12.00', url:'images/crab.jpeg'},
+    { id: 3, name: 'Prawn', price: '$8.00', url:'images/prawn.jpg'},
+    { id: 1, name: 'Salmon', price: '$10.00', url:'images/salmon.jpg' },
+    { id: 2, name: 'Tuna', price: '$12.00' , url:'images/tuna.jpg' },
+    { id: 3, name: 'Sardine', price: '$8.00',url:'images/sardine.jpg'},
+    { id: 1, name: 'Herring', price: '$10.00' , url:'images/herring.jpg' },
+    { id: 2, name: 'Crab', price: '$12.00', url:'images/crab.jpeg'},
+    { id: 3, name: 'Prawn', price: '$8.00', url:'images/prawn.jpg'},
 ];
 
 app.get('/api/products', (req, res) => {
