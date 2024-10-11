@@ -6,7 +6,7 @@ const Header = ({ cartCount }) => {
     return (
         <header className='header' style={{ display: 'flex', justifyContent: 'space-between', padding: '10px', }}>
             <img className='logo' src="https://t4.ftcdn.net/jpg/02/69/74/57/240_F_269745727_wTMoo0hTalZbNBC4O6F8yXTRbSVwWF0J.jpg" alt="Logo" />
-            <h1>Fish Market</h1>
+            <h1>NPR Fish Mart</h1>
             <Link to="/cart" style={{ textDecoration: 'none', color: 'black' }}>
                 <div style={{ position: 'relative' }}>
                     <span role="img" aria-label="cart">🛒</span>

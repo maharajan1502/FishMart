@@ -75,3 +75,100 @@
 .product:hover{
   box-shadow: 5px 5px 8px rgb(119, 119, 119);
 }
+
+.increment,.decrement{
+  background-color: rgb(248, 190, 167);
+  border-radius: 50px;
+  border: 1px solid rgb(148, 148, 148);
+}
+
+/* Floating button at the bottom right of the screen */
+.floating-cart {
+  position: fixed;
+  bottom: 20px; /* Distance from the bottom of the screen */
+  right: 20px;  /* Distance from the right of the screen */
+  padding: 15px 30px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  z-index: 1000; /* Ensure it stays on top */
+  font-size: 16px; /* Adjust the font size */
+  display: flex; /* Flex to align icon and text */
+  align-items: center;
+}
+
+.floating-cart i {
+  margin-right: 10px; /* Space between icon and text */
+}
+
+.floating-cart:hover {
+  background-color: #0056b3;
+}
+
+.page-container {
+  padding-bottom: 60px; /* Optional: Ensures no content is hidden behind the button */
+}
+
+/* src/components/Login.css */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f7f7f7;
+}
+
+.login-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+.login-input {
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.login-button {
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #45a049;
+}
+
+.login-footer {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.create-account-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.create-account-link:hover {
+  text-decoration: underline;
+}
+
+
