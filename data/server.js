@@ -1,9 +1,5 @@
 // server.js
 
-//IF YOU WANT TO RUN THIS SERVER PLEASE INTSALL THIS COMMENTS
-//npm intsall
-//npm i express cors
-
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser')
