@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const ProductList = ({ addToCart, isLoggedIn = false }) => {
+const ProductList = ({ addToCart, isLoggedIn}) => {
   const [products, setProducts] = useState([]);
   const [quantities, setQuantities] = useState({});
   const productRefs = useRef([]); // To keep references to each product element
@@ -66,11 +66,17 @@ const ProductList = ({ addToCart, isLoggedIn = false }) => {
   };
 
   const handleAddToCart = (product) => {
-    const quantity = quantities[product.id];
-    if (quantity > 0) {
-      addToCart(product, quantity);
+    if (!isLoggedIn) {
+      // If user is not logged in, navigate to login page
+      alert('You need to log in to add products to the cart.');
+      navigate('/login');
     } else {
-      alert('Quantity must be greater than 0 to add to cart');
+      const quantity = quantities[product.id];
+      if (quantity > 0) {
+        addToCart(product, quantity);
+      } else {
+        alert('Quantity must be greater than 0 to add to cart');
+      }
     }
   };
 
@@ -96,7 +102,7 @@ const ProductList = ({ addToCart, isLoggedIn = false }) => {
 
             <button
               className="add-to-cart"
-              onClick={() => handleAddToCart(product)}  // Check quantity before adding to cart
+              onClick={() => handleAddToCart(product)}  // Check if user is logged in before adding to cart
             >
               Add to Cart
             </button>

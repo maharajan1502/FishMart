@@ -11,6 +11,8 @@ const Login = ({ onLogin }) => {
         if (username === 'user' && password === 'password') {
             onLogin(); // This will update the login state in App.js
             alert('Logged in successfully!');
+            localStorage.setItem('hasPlacedOrder', 'true')
+            localStorage.setItem('hasPlacedOrder', 'true')
             navigate('/cart'); // Redirect back to the cart page after login
         } else {
             alert('Invalid credentials');

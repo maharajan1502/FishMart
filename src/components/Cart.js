@@ -1,18 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import './Cart.css'; // Assuming you're separating styles for better structure
 
-const Cart = ({ cartItems, removeFromCart, isLoggedIn, onLogin }) => {
+const Cart = ({ cartItems, removeFromCart, isLoggedIn }) => {
     const navigate = useNavigate();
+    const [hasPlacedOrder, setHasPlacedOrder] = useState(false);
+
+    // Check localStorage to see if the user has already placed an order
+    useEffect(() => {
+        const placedOrder = localStorage.getItem('hasPlacedOrder');
+        if (placedOrder) {
+            setHasPlacedOrder(true);
+        }
+    }, []);
 
     // Handle placing order
     const handlePlaceOrder = () => {
-        if (isLoggedIn) {
-            alert('Order placed successfully!');
-            // Optionally, clear the cart or navigate to a confirmation page
-        } else {
+        if (!isLoggedIn) {
+            // If the user is not logged in, redirect them to the login page
             alert('Please log in to place your order.');
-            navigate('/login');  // Redirect to login page if not logged in
+            navigate('/login');  // Navigate to login page
+        } else if (!hasPlacedOrder) {
+            // Ask for confirmation before placing the first order
+            const confirmOrder = window.confirm('Are you sure you want to place your order for the first time?');
+            if (confirmOrder) {
+                alert('Order placed successfully!');
+                setHasPlacedOrder(true);
+                localStorage.setItem('hasPlacedOrder', 'true'); // Store the status in localStorage
+                // Optionally clear the cart or navigate to a confirmation page
+            }
+        } else {
+            alert('Order placed successfully!');
+            // Optionally clear the cart or navigate to a confirmation page
         }
     };
 
