@@ -9,12 +9,13 @@ const cors = require('cors');
 const bodyParser = require('body-parser')
 const app = express();
 const PORT = 5000;
-const connectToDatabas = require('./db')
+const connectToDatabas = require('./config/db')
 app.use(cors());
 app.use(bodyParser.json());
 connectToDatabas();                 //DATA BASE CONNECTION
 const User = require('./model/userModel');
-const ProductModel = require('./model/productModel')
+
+const ProductModel = require('./model/productModel');
 const products = [
     { id: 1, name: 'Salmon', price: '$10.00', url:'images/salmon.jpg' },
     { id: 2, name: 'Tuna', price: '$12.00' , url:'images/tuna.jpg' },
@@ -49,4 +50,4 @@ app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
 
-//DATA BASE MODELS OPERATIONS
+
