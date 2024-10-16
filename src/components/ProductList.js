@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const ProductList = ({ addToCart }) => {
+const ProductList = ({ addToCart, isLoggedIn}) => {
   const [products, setProducts] = useState([]);
   const [quantities, setQuantities] = useState({});
-  const navigate = useNavigate(); // useNavigate to programmatically navigate
+  const productRefs = useRef([]); // To keep references to each product element
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -12,9 +13,8 @@ const ProductList = ({ addToCart }) => {
       const data = await response.json();
       setProducts(data);
 
-      // Initialize quantities for each product as 0
       const initialQuantities = data.reduce((acc, product) => {
-        acc[product.id] = 0; // Default quantity to 0
+        acc[product.id] = 0;
         return acc;
       }, {});
       setQuantities(initialQuantities);
@@ -23,82 +23,92 @@ const ProductList = ({ addToCart }) => {
     fetchProducts();
   }, []);
 
-  // Increment the quantity of the product
+  // Set up Intersection Observer to animate products when they come into view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate'); // Add animation class when in view
+            observer.unobserve(entry.target); // Stop observing the element once it becomes visible
+          }
+        });
+      },
+      { threshold: 0.1 } // Trigger when 10% of the element is visible
+    );
+
+    productRefs.current.forEach((product) => {
+      if (product) {
+        observer.observe(product); // Observe each product
+      }
+    });
+
+    // Clean up the observer
+    return () => {
+      productRefs.current.forEach((product) => {
+        if (product) observer.unobserve(product);
+      });
+    };
+  }, [products]); // Only run the observer when products are fetched
+
   const incrementQuantity = (id) => {
     setQuantities((prevQuantities) => ({
       ...prevQuantities,
-      [id]: prevQuantities[id] + 1,  // Increment current quantity by 1
+      [id]: prevQuantities[id] + 1,
     }));
   };
 
-  // Decrement the quantity of the product (ensure it doesn't go below 0)
   const decrementQuantity = (id) => {
     setQuantities((prevQuantities) => ({
       ...prevQuantities,
-      [id]: Math.max(0, prevQuantities[id] - 1),  // Decrement but ensure it's not below 0
+      [id]: Math.max(0, prevQuantities[id] - 1),
     }));
   };
 
-  // Handle adding items to cart
   const handleAddToCart = (product) => {
-    const quantity = quantities[product.id];
-    if (quantity > 0) {
-      addToCart(product, quantity);  // Only add to cart if quantity > 0
+    if (!isLoggedIn) {
+      // If user is not logged in, navigate to login page
+      alert('You need to log in to add products to the cart.');
+      navigate('/login');
     } else {
-      alert('Quantity must be greater than 0 to add to cart');
+      const quantity = quantities[product.id];
+      if (quantity > 0) {
+        addToCart(product, quantity);
+      } else {
+        alert('Quantity must be greater than 0 to add to cart');
+      }
     }
-  };
-
-  // Handle clicking "View Cart" button
-  const handleViewCart = () => {
-    // Filter products that have a quantity greater than 0
-    const itemsToAdd = products.filter(product => quantities[product.id] > 0);
-
-    // Add each valid item to the cart with its quantity
-    itemsToAdd.forEach(item => {
-      addToCart(item, quantities[item.id]);
-    });
-
-    // Navigate to cart page
-    // navigate('/cart');
   };
 
   return (
     <div className="page-container">
       <div className="product-list">
-        {products.map((product) => (
-          <div key={product.id} className="product">
-            <h3 style={{ justifyContent: 'space-between' }}>{product.name}</h3>
+        {products.map((product, index) => (
+          <div
+            key={product.id}
+            className="product"
+            ref={(el) => (productRefs.current[index] = el)} // Reference each product
+          >
+            <h3>{product.name}</h3>
             <img className="fishimage" src={product.url} alt={product.name}></img>
             <p>Price: {product.price}</p>
 
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <pre>Quantity   </pre>
-              {/* Decrement Button */}
               <button className="decrement" onClick={() => decrementQuantity(product.id)}>-</button>
-
-              {/* Display Quantity */}
               <span style={{ margin: '0 10px' }}>{quantities[product.id]}</span>
-
-              {/* Increment Button */}
               <button className="increment" onClick={() => incrementQuantity(product.id)}>+</button>
             </div>
 
-            {/* Add to Cart Button for this specific product */}
-            {/* <button
+            <button
               className="add-to-cart"
-              onClick={() => handleAddToCart(product)}  // Check quantity before adding to cart
+              onClick={() => handleAddToCart(product)}  // Check if user is logged in before adding to cart
             >
               Add to Cart
-            </button> */}
+            </button>
           </div>
         ))}
       </div>
-
-      {/* Floating Cart Button */}
-      <button className="floating-cart" onClick={handleViewCart}>
-        <i className="fas fa-shopping-cart"></i> Add to Cart
-      </button>
     </div>
   );
 };
