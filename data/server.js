@@ -14,6 +14,7 @@ app.use(cors());
 app.use(bodyParser.json());
 connectToDatabas();                 //DATA BASE CONNECTION
 const User = require('./model/userModel');
+
 const ProductModel = require('./model/productModel');
 const products = [
     { id: 1, name: 'Salmon', price: '$10.00', url:'images/salmon.jpg' },
@@ -48,4 +49,5 @@ app.post('/api/contact', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
+
 
